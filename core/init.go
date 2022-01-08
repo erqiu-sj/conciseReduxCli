@@ -88,7 +88,10 @@ func (that *InitializationProcess) updateStoreFile() {
 	if !utils.MustImportConciseRedux(fileContent) {
 		panic(errors.New(utils.PleaseCheckIfConsiderReduxIsIntroduced))
 	}
-
+	// 没有实现 combineReducers 函数
+	if !utils.MatchCombineReducers(fileContent) {
+		panic(errors.New(utils.TheCombineReducersFunctionIsNotImplemented))
+	}
 }
 
 func (that *InitializationProcess) ParseTheConfiguration() {

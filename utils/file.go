@@ -81,3 +81,10 @@ func isComment(content string) bool {
 	return len(result) != 0
 
 }
+
+// MatchCombineReducers 匹配是否不为空
+func MatchCombineReducers(content string) bool {
+	return len(
+		MatchFunctionBodyCombineReducers.FindString(content),
+	) != 0
+}

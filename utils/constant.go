@@ -18,6 +18,7 @@ const (
 	StoreFileDoesNotExist                             = "store file does not exist"                                                   // store  文件不存在
 	YouHaveIntroducedConsiderReduxButItIsNowCommented = "you have introduced ConsiderRedux but it is now commented"                   // 引入了 ConsiderRedux 但被注释
 	PleaseCheckIfConsiderReduxIsIntroduced            = "please check if ConsiderRedux or combineReducers are introduced"             // 请检查 是否引入 ConsiderRedux 或 combineReducers
+	TheCombineReducersFunctionIsNotImplemented        = "the combineReducers function is not implemented"                             // 没有实现  combineReducers  函数
 
 	// generate
 
@@ -33,6 +34,7 @@ var (
 	// regular Expression Judgment
 
 	// TODO: 无法处理换行
-	WhetherToIntroduceConsideRedux = regexp.MustCompile("(\\s+|.+)import(\\s+|)\\s.+combineReducer.+(from)\\s.+@zealforchange\\/conciseredux") // 是否引入 conciseredux
-	IsItComment                    = regexp.MustCompile("^(\\s.|)//")                                                                          // 是否是注释
+	WhetherToIntroduceConsideRedux   = regexp.MustCompile("(\\s+|.+)import(\\s+|)\\s.+combineReducer.+(from)\\s.+@zealforchange\\/conciseredux") // 是否引入 conciseredux
+	MatchFunctionBodyCombineReducers = regexp.MustCompile(`(\()(\s.+)combineReducers.+(\s.+)*}`)                                                 // 匹配  combineReducers 函数体
+	IsItComment                      = regexp.MustCompile("^(\\s.|)//")                                                                          // 是否是注释
 )
