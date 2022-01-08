@@ -1,0 +1,17 @@
+{
+  "conciseRedux": {
+    "baseURL": "./src",
+    "storePath": "./store/index.ts",
+    "reducerDirPath": "./reducer",
+    "reducerList": {
+      "action": [
+        "actions",
+        "patas"
+      ],
+      "like": [
+        "actions",
+        "patas"
+      ]
+    }
+  }
+}
