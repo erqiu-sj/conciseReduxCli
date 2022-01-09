@@ -8,6 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/core/init.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/types/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/constant.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/constant.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/file.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/file.go" afterDir="false" />
     </list>
@@ -53,6 +55,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>

@@ -15,6 +15,7 @@ type BasicConfiguration struct {
 	StorePath      string           `json:"storePath"`      // 必填
 	ReducerDirPath string           `json:"reducerDirPath"` // 必填
 	ReducerList    ReducerListTypes `json:"reducerList"`    // 必填
+	PathAlias      string           `json:"pathAlias"`      // 路径别名非必填
 }
 
 type AdvancedConfiguration struct {
@@ -25,4 +26,10 @@ type InitializationProcess interface {
 	CheckPath()                        // 检查路径
 	CheckTheConfiguration(path string) // 检查配置内容
 	ParseTheConfiguration()
+}
+
+type UpdateStore struct {
+	UpdatedImport          []string // 新增的 import 路径
+	AddReducerCall         []string // 新增 reducer 调用
+	UpdatedCombineReducers string   // 更新后的 CombineReducers
 }

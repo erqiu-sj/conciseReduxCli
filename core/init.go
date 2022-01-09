@@ -76,7 +76,7 @@ func (that *InitializationProcess) generateReducer() {
 		}
 	}
 }
-func (that *InitializationProcess) updateStoreFile() {
+func (that *InitializationProcess) updateStoreFile() string {
 	pwd, _ := os.Getwd()
 	path := filepath.Join(pwd, that.configurationStructure.ConciseRedux.BaseURL, that.configurationStructure.ConciseRedux.StorePath)
 	if !utils.IsExist(path) {
@@ -92,9 +92,30 @@ func (that *InitializationProcess) updateStoreFile() {
 	if !utils.MatchCombineReducers(fileContent) {
 		panic(errors.New(utils.TheCombineReducersFunctionIsNotImplemented))
 	}
+	updateContext := types.UpdateStore{}
+	for reducerKey := range that.configurationStructure.ConciseRedux.ReducerList {
+		if !utils.CombineReducersImplementTheCorrespondingReducer(fileContent, reducerKey) {
+			//未实现相关reducer
+			updateContext.UpdatedImport = append(
+				updateContext.UpdatedImport,
+				utils.NewImportWithReducer(that.configurationStructure, reducerKey),
+			)
+			updateContext.AddReducerCall = append(
+				updateContext.AddReducerCall,
+				utils.ReducerCall(reducerKey),
+			)
+		}
+		// 实现了相关reducer
+	}
+	// 更新 CombineReducers 内容
+	updateContext.UpdatedCombineReducers = utils.UpdateCombineReducers(fileContent, utils.StringSliceToString(updateContext.AddReducerCall))
+	return fmt.Sprint(utils.StringSliceToString(updateContext.UpdatedImport),
+		utils.MatchFunctionBodyCombineReducers.ReplaceAllString(fileContent, utils.UpdateCombineReducers(fileContent, utils.StringSliceToString(updateContext.AddReducerCall))),
+	)
 }
 
 func (that *InitializationProcess) ParseTheConfiguration() {
 	that.generateReducer()
-	that.updateStoreFile()
+	updateFile := that.updateStoreFile()
+	fmt.Println(updateFile)
 }

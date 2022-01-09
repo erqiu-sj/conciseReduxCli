@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -62,29 +61,4 @@ func CreateFile(fileName string, content string) {
 	_ = CatchErr(err, func(msg string) string {
 		return msg
 	}, true)
-}
-
-// MustImportConciseRedux 是否引入 ConsideRedux
-func MustImportConciseRedux(content string) bool {
-	result := WhetherToIntroduceConsideRedux.FindString(content)
-	if isComment(result) {
-		fmt.Println(
-			YouHaveIntroducedConsiderReduxButItIsNowCommented,
-		)
-		return false
-	}
-	return len(result) != 0
-}
-
-func isComment(content string) bool {
-	result := IsItComment.FindString(content)
-	return len(result) != 0
-
-}
-
-// MatchCombineReducers 匹配是否不为空
-func MatchCombineReducers(content string) bool {
-	return len(
-		MatchFunctionBodyCombineReducers.FindString(content),
-	) != 0
 }

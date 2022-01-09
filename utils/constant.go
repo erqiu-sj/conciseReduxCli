@@ -32,7 +32,6 @@ const (
 
 var (
 	// regular Expression Judgment
-
 	// TODO: 无法处理换行
 	WhetherToIntroduceConsideRedux   = regexp.MustCompile("(\\s+|.+)import(\\s+|)\\s.+combineReducer.+(from)\\s.+@zealforchange\\/conciseredux") // 是否引入 conciseredux
 	MatchFunctionBodyCombineReducers = regexp.MustCompile(`(\()(\s.+)combineReducers.+(\s.+)*}`)                                                 // 匹配  combineReducers 函数体
