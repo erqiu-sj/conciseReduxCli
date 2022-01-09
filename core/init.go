@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"os"
 	"path/filepath"
 	"reduxCli/template"
 	"reduxCli/types"
@@ -60,8 +59,7 @@ func (that *InitializationProcess) CheckTheConfiguration() *InitializationProces
 	return that
 }
 func (that *InitializationProcess) generateReducer() {
-	pwd, _ := os.Getwd()
-	path := filepath.Join(pwd, that.configurationStructure.ConciseRedux.BaseURL, that.configurationStructure.ConciseRedux.ReducerDirPath)
+	path := filepath.Join(utils.GetPwd(), that.configurationStructure.ConciseRedux.BaseURL, that.configurationStructure.ConciseRedux.ReducerDirPath)
 	if !utils.IsExist(path) {
 		utils.MkDir(path)
 	}
@@ -77,8 +75,7 @@ func (that *InitializationProcess) generateReducer() {
 	}
 }
 func (that *InitializationProcess) updateStoreFile() string {
-	pwd, _ := os.Getwd()
-	path := filepath.Join(pwd, that.configurationStructure.ConciseRedux.BaseURL, that.configurationStructure.ConciseRedux.StorePath)
+	path := filepath.Join(utils.GetPwd(), that.configurationStructure.ConciseRedux.BaseURL, that.configurationStructure.ConciseRedux.StorePath)
 	if !utils.IsExist(path) {
 		panic(errors.New(utils.StoreFileDoesNotExist))
 	}
@@ -113,9 +110,15 @@ func (that *InitializationProcess) updateStoreFile() string {
 		utils.MatchFunctionBodyCombineReducers.ReplaceAllString(fileContent, utils.UpdateCombineReducers(fileContent, utils.StringSliceToString(updateContext.AddReducerCall))),
 	)
 }
-
 func (that *InitializationProcess) ParseTheConfiguration() {
 	that.generateReducer()
 	updateFile := that.updateStoreFile()
-	fmt.Println(updateFile)
+	// TODO 当更新第二次时 正则表达式出错
+	utils.RemoveFile(
+		filepath.Join(utils.GetPwd(), that.configurationStructure.ConciseRedux.BaseURL, that.configurationStructure.ConciseRedux.StorePath),
+	)
+	utils.CreateFile(
+		filepath.Join(utils.GetPwd(), that.configurationStructure.ConciseRedux.BaseURL, that.configurationStructure.ConciseRedux.StorePath),
+		updateFile,
+	)
 }

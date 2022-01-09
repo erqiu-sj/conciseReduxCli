@@ -3,7 +3,6 @@
     "baseURL": "./src",
     "storePath": "./store/index.ts",
     "reducerDirPath": "./reducer",
-    "pathAlias": "@/@",
     "reducerList": {
       "action": [
         "actions",

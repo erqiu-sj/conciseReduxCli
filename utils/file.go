@@ -9,17 +9,19 @@ import (
 // CheckConfigurationFileExist 检查配置文件是否存在 并 返回配置文件路径
 func CheckConfigurationFileExist(path string) (string, os.FileInfo, error) {
 	var finallyErr error
-	dir, dirErr := os.Getwd()
-	finallyErr = CatchErr(dirErr, func(msg string) string {
-		return msg
-	}, false)
 	file, err := os.Stat(path)
 	finallyErr = CatchErr(err, func(msg string) string {
 		return configurationFileDoesNotExist
 	}, false)
-	return filepath.Join(dir, path), file, finallyErr
+	return filepath.Join(GetPwd(), path), file, finallyErr
 }
-
+func GetPwd() string {
+	dir, dirErr := os.Getwd()
+	_ = CatchErr(dirErr, func(msg string) string {
+		return msg
+	}, true)
+	return dir
+}
 func OpenFile(URL string) (*os.File, func()) {
 	file, readErr := os.Open(URL)
 	_ = CatchErr(readErr, func(msg string) string {
@@ -59,6 +61,13 @@ func CreateFile(fileName string, content string) {
 	}, true)
 	_, err = file.Write([]byte(content))
 	_ = CatchErr(err, func(msg string) string {
+		return msg
+	}, true)
+}
+
+func RemoveFile(path string) {
+	removeErr := os.Remove(path)
+	_ = CatchErr(removeErr, func(msg string) string {
 		return msg
 	}, true)
 }

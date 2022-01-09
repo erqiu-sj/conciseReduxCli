@@ -1,3 +1,5 @@
+import { action } from 'src/reducer/action.ts';
+import { like } from 'src/reducer/like.ts';
 /*
  * @Author       : 邱狮杰
  * @Date         : 2021-07-29 14:03:55
@@ -8,18 +10,19 @@
 
 import thunk from 'redux-thunk'
 // import { createLogger } from 'redux-logger'
-import {
-    Common,
-    FormOptionsInit,
-    HeaderButtonReducer,
-    HeaderCustomer,
-    HeaderGoodsReducer,
-    LikeAndDeleteIdCollection,
-    Search,
-    YarnSelectionListStatus
-} from './modules'
-import {applyMiddleware, combineReducers, createStore, Middleware} from '@zealforchange/conciseredux'
-
+import { HeaderButtonReducer, HeaderGoodsReducer, HeaderCustomer, YarnSelectionListStatus, Common, FormOptionsInit, LikeAndDeleteIdCollection, Search } from './modules'
+import { createStore, combineReducers, applyMiddleware, Middleware } from '@zealforchange/conciseredux'
+// import { createStore, combineReducers, applyMiddleware, Middleware } from 'redux'
+// createLogger({})
+// const middleware = [thunk, createLogger({})]
+// function nextResult(store: Store) {
+//   return (next: any) => {
+//     return (action: any) => {
+//       console.log(store)
+//       return next(action)
+//     }
+//   }
+// }
 type behavioralConsumptionTimeOption = {
     log: string
     stop?: boolean
@@ -35,7 +38,8 @@ const behavioralConsumptionTime = function (option?: behavioralConsumptionTimeOp
         return result
     }
 }
-const middleware: any = [behavioralConsumptionTime({log: 'group', stop: true}), thunk,]
+
+const middleware: any = [behavioralConsumptionTime({ log: 'group', stop: true }), thunk,]
 const store = createStore(
     combineReducers({
         HeaderButtonReducer: HeaderButtonReducer.finish(),
@@ -46,8 +50,10 @@ const store = createStore(
         FormOptionsInit: FormOptionsInit.finish(),
         LikeAndDeleteIdCollection: LikeAndDeleteIdCollection.finish(),
         Search: Search.finish(),
-    }),
+    action:action.finish(),
+like:like.finish(),
+}),
     applyMiddleware(...middleware)
 )
 
-export {store}
+export { store }
