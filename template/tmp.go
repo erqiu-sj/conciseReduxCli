@@ -9,7 +9,7 @@ import (
 //  generateActionTypes 生成action
 func generateActionTypes(reducerName string, actions []string) (string, string, string) {
 	actionsName := fmt.Sprint(reducerName, utils.GenerateAction)
-	actionsList := fmt.Sprintln("export const ", actionsName, "= {")
+	actionsList := fmt.Sprintln("export type ", actionsName, "= {")
 	for index, ele := range actions {
 		if len(actions) == index+1 {
 			actionsList = fmt.Sprintln(
@@ -27,7 +27,7 @@ func generateActionTypes(reducerName string, actions []string) (string, string, 
 	actionsList =
 		fmt.Sprintln(actionsList,
 			"\n",
-			fmt.Sprint("export type ", actionTypesName, " =  getAllValsWithActionCollectionHelper<typeof ", actionsName, ">"),
+			fmt.Sprint("export type ", actionTypesName, " =  getAllValsWithActionCollectionHelper<", actionsName, ">"),
 		)
 	return actionsList, actionsName, actionTypesName
 }
@@ -57,7 +57,7 @@ func generateReducer(reducerName string, actions []string, payload reducerPayloa
 	for _, action := range actions {
 		generateActionHandler = fmt.Sprint(
 			generateActionHandler,
-			fmt.Sprint(" .addAction('", action, "', (state, action) => {\n    return { ...state }\n  }"),
+			fmt.Sprint(" .addAction('", action, "', (state, action) => {\n    return { ...state }\n  })"),
 		)
 	}
 	generateHandler = fmt.Sprintln(

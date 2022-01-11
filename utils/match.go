@@ -5,15 +5,14 @@ import (
 	"path/filepath"
 	"reduxCli/types"
 	"regexp"
+	"unicode"
 )
 
 // MustImportConciseRedux 是否引入 ConsideRedux
 func MustImportConciseRedux(content string) bool {
 	result := WhetherToIntroduceConsideRedux.FindString(content)
 	if isComment(result) {
-		fmt.Println(
-			YouHaveIntroducedConsiderReduxButItIsNowCommented,
-		)
+		Red(YouHaveIntroducedConsiderReduxButItIsNowCommented)
 		return false
 	}
 	return len(result) != 0
@@ -43,9 +42,9 @@ func NewImportWithReducer(config types.ConciseReduxConfig, actionName string) st
 	// 路径别名优先级最高
 	var path string
 	if len(config.ConciseRedux.PathAlias) != 0 {
-		path = filepath.Join(config.ConciseRedux.PathAlias, config.ConciseRedux.ReducerDirPath, fmt.Sprint(actionName, ".ts"))
+		path = filepath.Join(config.ConciseRedux.PathAlias, config.ConciseRedux.ReducerDirPath, fmt.Sprint(actionName))
 	} else {
-		path = filepath.Join(config.ConciseRedux.BaseURL, config.ConciseRedux.ReducerDirPath, fmt.Sprint(actionName, ".ts"))
+		path = filepath.Join(config.ConciseRedux.BaseURL, config.ConciseRedux.ReducerDirPath, fmt.Sprint(actionName))
 	}
 	return fmt.Sprint("import { ", actionName, " } from '", path, "';", "\n")
 }
@@ -65,4 +64,37 @@ func StringSliceToString(strArr []string) string {
 func UpdateCombineReducers(combineReducersContext string, updateReducerCall string) string {
 	reg := regexp.MustCompile("}")
 	return reg.ReplaceAllString(MatchFunctionBodyCombineReducers.FindString(combineReducersContext), fmt.Sprint(updateReducerCall, "}"))
+}
+
+// IsStartUpper 首字符是否大写
+func IsStartUpper(s string) bool {
+	return unicode.IsUpper([]rune(s)[0])
+}
+
+// Capitalize 字符首字母大写
+func Capitalize(str string) string {
+	var upperStr string
+	vv := []rune(str)
+	for i := 0; i < len(vv); i++ {
+		if i == 0 {
+			if vv[i] >= 97 && vv[i] <= 122 {
+				vv[i] -= 32
+				upperStr += string(vv[i])
+			} else {
+				fmt.Println("Not begins with lowercase letter,")
+				return str
+			}
+		} else {
+			upperStr += string(vv[i])
+		}
+	}
+	return upperStr
+}
+
+// CapitalizeTheFirstLetter 首字母大写
+func CapitalizeTheFirstLetter(s string) string {
+	if IsStartUpper(s) {
+		return s
+	}
+	return Capitalize(s)
 }

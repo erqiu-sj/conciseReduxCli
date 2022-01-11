@@ -68,7 +68,7 @@ func (that *InitializationProcess) generateReducer() {
 			filepath.Join(path, reducerName), utils.ReducerFileSuffix,
 		)
 		if !utils.IsExist(reducerPath) {
-			go utils.CreateFile(reducerPath,
+			utils.CreateFile(reducerPath,
 				template.CreateReducer(reducerName, actionsList),
 			)
 		}
@@ -110,10 +110,9 @@ func (that *InitializationProcess) updateStoreFile() string {
 		utils.MatchFunctionBodyCombineReducers.ReplaceAllString(fileContent, utils.UpdateCombineReducers(fileContent, utils.StringSliceToString(updateContext.AddReducerCall))),
 	)
 }
-func (that *InitializationProcess) ParseTheConfiguration() {
+func (that *InitializationProcess) ParseTheConfiguration() *InitializationProcess {
 	that.generateReducer()
 	updateFile := that.updateStoreFile()
-	// TODO 当更新第二次时 正则表达式出错
 	utils.RemoveFile(
 		filepath.Join(utils.GetPwd(), that.configurationStructure.ConciseRedux.BaseURL, that.configurationStructure.ConciseRedux.StorePath),
 	)
@@ -121,4 +120,31 @@ func (that *InitializationProcess) ParseTheConfiguration() {
 		filepath.Join(utils.GetPwd(), that.configurationStructure.ConciseRedux.BaseURL, that.configurationStructure.ConciseRedux.StorePath),
 		updateFile,
 	)
+	return that
+}
+
+func (that *InitializationProcess) GenerateHooks(forceFolderCreation bool) {
+	path := filepath.Join(utils.GetPwd(), that.configurationStructure.ConciseRedux.BaseURL, that.configurationStructure.ConciseRedux.HooksDir)
+	// 不存在hooks文件夹
+	if !utils.IsExist(path) && !forceFolderCreation {
+		panic(errors.New(utils.TheHooksFolderDoesNotExist))
+	}
+	if !utils.IsExist(path) && !forceFolderCreation {
+		utils.MkDir(path)
+		utils.Green(utils.HooksFolderCreatedSuccessfully)
+	}
+	for reducerName, _ := range that.configurationStructure.ConciseRedux.ReducerList {
+		hooksPath := fmt.Sprint(
+			filepath.Join(path, reducerName), utils.ReducerFileSuffix,
+		)
+		createHookPath := fmt.Sprint(
+			filepath.Join(path, fmt.Sprint("use", utils.CapitalizeTheFirstLetter(reducerName))), utils.ReducerFileSuffix,
+		)
+		if !utils.IsExist(hooksPath) {
+			utils.CreateFile(createHookPath,
+				template.CreateHooks(reducerName, that.configurationStructure),
+			)
+		}
+	}
+
 }

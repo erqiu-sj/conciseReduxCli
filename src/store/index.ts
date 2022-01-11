@@ -7,11 +7,9 @@ import { like } from 'src/reducer/like.ts';
  * @FilePath     : /preselectedweddingdress/src/reducers/index.ts
  * @Description  :
  */
-
 import thunk from 'redux-thunk'
 // import { createLogger } from 'redux-logger'
-import { HeaderButtonReducer, HeaderGoodsReducer, HeaderCustomer, YarnSelectionListStatus, Common, FormOptionsInit, LikeAndDeleteIdCollection, Search } from './modules'
-import { createStore, combineReducers, applyMiddleware, Middleware } from '@zealforchange/conciseredux'
+import {combineReducers, createStore, Middleware} from '@zealforchange/conciseredux'
 // import { createStore, combineReducers, applyMiddleware, Middleware } from 'redux'
 // createLogger({})
 // const middleware = [thunk, createLogger({})]
@@ -39,21 +37,9 @@ const behavioralConsumptionTime = function (option?: behavioralConsumptionTimeOp
     }
 }
 
-const middleware: any = [behavioralConsumptionTime({ log: 'group', stop: true }), thunk,]
-const store = createStore(
-    combineReducers({
-        HeaderButtonReducer: HeaderButtonReducer.finish(),
-        HeaderGoodsReducer: HeaderGoodsReducer.finish(),
-        HeaderCustomer: HeaderCustomer.finish(),
-        YarnSelectionListStatus: YarnSelectionListStatus.finish(),
-        Common: Common.finish(),
-        FormOptionsInit: FormOptionsInit.finish(),
-        LikeAndDeleteIdCollection: LikeAndDeleteIdCollection.finish(),
-        Search: Search.finish(),
-    action:action.finish(),
+const middleware: any = [behavioralConsumptionTime({log: 'group', stop: true}), thunk,]
+const store = createStore(combineReducers({action:action.finish(),
 like:like.finish(),
-}),
-    applyMiddleware(...middleware)
-)
+}))
 
-export { store }
+export {store}
