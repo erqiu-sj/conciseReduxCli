@@ -8,8 +8,9 @@ import (
 
 // importHooksDependencies 导入hooks依赖
 func importHooksDependencies(config types.ConciseReduxConfig, actionName string) string {
+
 	dep := fmt.Sprint("import { useDispatch , useSelector } from 'react-redux';", "\n", "import { bindActionCreators } from '@zealforchange/conciseredux'",
-		"\n", utils.NewImportWithReducer(config, actionName),
+		"\n", utils.NewImportWithReducer(config, actionName, types.NewImportWithReducerOps{IntroduceStateStatement: true}),
 	)
 	return dep
 }

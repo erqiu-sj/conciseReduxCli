@@ -2,12 +2,12 @@ import { CreateReducer , getAllValsWithActionCollectionHelper } from '@zealforch
  
 
  
- export const  actionAction = {
+ export type  actionAction = {
  ACTIONS: 'actions',
  PATAS: 'patas'
 }
  
- export type actionActionTypes =  getAllValsWithActionCollectionHelper<typeof actionAction>
+ export type actionActionTypes =  getAllValsWithActionCollectionHelper<actionAction>
  
  export type  actionStateTypes  = {}
  
@@ -16,8 +16,8 @@ import { CreateReducer , getAllValsWithActionCollectionHelper } from '@zealforch
  export const action = new CreateReducer<actionStateTypes,actionActionPayloadTypes,actionActionTypes>({}) 
   .addAction('actions', (state, action) => {
     return { ...state }
-  } .addAction('patas', (state, action) => {
+  }) .addAction('patas', (state, action) => {
     return { ...state }
-  } 
+  }) 
  .setReducerKey('action')
 

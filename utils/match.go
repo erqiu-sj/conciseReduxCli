@@ -38,7 +38,11 @@ func CombineReducersImplementTheCorrespondingReducer(content string, action stri
 	return len(reg.FindString(content)) != 0
 }
 
-func NewImportWithReducer(config types.ConciseReduxConfig, actionName string) string {
+func NewImportWithReducer(config types.ConciseReduxConfig, actionName string, ops types.NewImportWithReducerOps) string {
+	actionStateTypes := ""
+	if ops.IntroduceStateStatement {
+		actionStateTypes = fmt.Sprint(", ", actionName, GenerateStateTypes, " ")
+	}
 	// 路径别名优先级最高
 	var path string
 	if len(config.ConciseRedux.PathAlias) != 0 {
@@ -46,7 +50,7 @@ func NewImportWithReducer(config types.ConciseReduxConfig, actionName string) st
 	} else {
 		path = filepath.Join(config.ConciseRedux.BaseURL, config.ConciseRedux.ReducerDirPath, fmt.Sprint(actionName))
 	}
-	return fmt.Sprint("import { ", actionName, " } from '", path, "';", "\n")
+	return fmt.Sprint("import { ", actionName, actionStateTypes, " } from '", path, "';", "\n")
 }
 
 func ReducerCall(actionName string) string {

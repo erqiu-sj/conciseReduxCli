@@ -2,12 +2,12 @@ import { CreateReducer , getAllValsWithActionCollectionHelper } from '@zealforch
  
 
  
- export const  likeAction = {
+ export type  likeAction = {
  ACTIONS: 'actions',
  PATAS: 'patas'
 }
  
- export type likeActionTypes =  getAllValsWithActionCollectionHelper<typeof likeAction>
+ export type likeActionTypes =  getAllValsWithActionCollectionHelper<likeAction>
  
  export type  likeStateTypes  = {}
  
@@ -16,8 +16,8 @@ import { CreateReducer , getAllValsWithActionCollectionHelper } from '@zealforch
  export const like = new CreateReducer<likeStateTypes,likeActionPayloadTypes,likeActionTypes>({}) 
   .addAction('actions', (state, action) => {
     return { ...state }
-  } .addAction('patas', (state, action) => {
+  }) .addAction('patas', (state, action) => {
     return { ...state }
-  } 
+  }) 
  .setReducerKey('like')
 

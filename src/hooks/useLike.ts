@@ -1,6 +1,6 @@
 import { useDispatch , useSelector } from 'react-redux';
 import { bindActionCreators } from '@zealforchange/conciseredux'
-import { like } from 'src/reducer/like';
+import { like, likeStateTypes  } from 'src/reducer/like';
 
 export function useLike() {
 
@@ -13,4 +13,6 @@ const curStateWithLike = useSelector((state: {like:likeStateTypes }) => {
 return state.like
 })
 
-return {dispatchWithLike , curStateWithLike , curStateWithLikeForRedux}}
+return {dispatchWithLike , curStateWithLike , curStateWithLikeForRedux}
+
+}

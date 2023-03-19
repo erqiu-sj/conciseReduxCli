@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -63,6 +64,7 @@ func CreateFile(fileName string, content string) {
 	_ = CatchErr(err, func(msg string) string {
 		return msg
 	}, true)
+	Green(fmt.Sprint(fileName, " file update completed"))
 }
 
 func RemoveFile(path string) {

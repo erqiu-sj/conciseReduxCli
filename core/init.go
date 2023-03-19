@@ -95,7 +95,9 @@ func (that *InitializationProcess) updateStoreFile() string {
 			//未实现相关reducer
 			updateContext.UpdatedImport = append(
 				updateContext.UpdatedImport,
-				utils.NewImportWithReducer(that.configurationStructure, reducerKey),
+				utils.NewImportWithReducer(that.configurationStructure, reducerKey, types.NewImportWithReducerOps{
+					IntroduceStateStatement: false,
+				}),
 			)
 			updateContext.AddReducerCall = append(
 				updateContext.AddReducerCall,
@@ -123,7 +125,10 @@ func (that *InitializationProcess) ParseTheConfiguration() *InitializationProces
 	return that
 }
 
-func (that *InitializationProcess) GenerateHooks(forceFolderCreation bool) {
+func (that *InitializationProcess) GenerateHooks(forceFolderCreation bool) *InitializationProcess {
+	if !forceFolderCreation {
+		return that
+	}
 	path := filepath.Join(utils.GetPwd(), that.configurationStructure.ConciseRedux.BaseURL, that.configurationStructure.ConciseRedux.HooksDir)
 	// 不存在hooks文件夹
 	if !utils.IsExist(path) && !forceFolderCreation {
@@ -135,7 +140,7 @@ func (that *InitializationProcess) GenerateHooks(forceFolderCreation bool) {
 	}
 	for reducerName, _ := range that.configurationStructure.ConciseRedux.ReducerList {
 		hooksPath := fmt.Sprint(
-			filepath.Join(path, reducerName), utils.ReducerFileSuffix,
+			filepath.Join(path, fmt.Sprint("use", utils.CapitalizeTheFirstLetter(reducerName))), utils.ReducerFileSuffix,
 		)
 		createHookPath := fmt.Sprint(
 			filepath.Join(path, fmt.Sprint("use", utils.CapitalizeTheFirstLetter(reducerName))), utils.ReducerFileSuffix,
@@ -146,5 +151,5 @@ func (that *InitializationProcess) GenerateHooks(forceFolderCreation bool) {
 			)
 		}
 	}
-
+	return that
 }

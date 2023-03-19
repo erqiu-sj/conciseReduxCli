@@ -20,7 +20,9 @@ func main() {
 	utils.Green("compiling...")
 	startTime := time.Now()
 	initHandler := core.InitializationProcess{PathName: utils.ConfigurationFileName}
-	initHandler.CheckPath().CheckTheConfiguration().ParseTheConfiguration().GenerateHooks(true)
+	cmdResult := utils.CmdHandler()
+	initHandler.CheckPath().CheckTheConfiguration().ParseTheConfiguration().GenerateHooks(cmdResult.CreateHooksFile)
+	//cmdResult.CheckReducer
 	endTime := time.Since(startTime)
 	utils.FillGray(endTime)
 }

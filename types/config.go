@@ -33,3 +33,13 @@ type UpdateStore struct {
 	AddReducerCall         []string // 新增 reducer 调用
 	UpdatedCombineReducers string   // 更新后的 CombineReducers
 }
+
+type CmdConfig struct {
+	CreateHooksFile bool // 创建和reducer 相关的hooks
+	CheckHooks      bool // 检查hooks
+	CheckReducer    bool // 检查reducer
+}
+
+type NewImportWithReducerOps struct {
+	IntroduceStateStatement bool // 引入 对应的action的state声明？
+}
